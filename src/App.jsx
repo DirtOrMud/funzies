@@ -6,6 +6,7 @@ import AvatarEditor from './components/AvatarEditor'
 import TimerSettings from './components/TimerSettings'
 import ParticipantsBar from './components/ParticipantsBar'
 import styles from './App.module.css'
+import { joinRoom, leaveRoom, syncRoom }  from './firebase'
 import { useRoom } from './hooks/useRoom'
 
 // Default demo users — replace with Firebase real-time data in Phase 3
