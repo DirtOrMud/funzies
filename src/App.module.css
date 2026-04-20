@@ -1,0 +1,40 @@
+.app {
+  width: 340px;
+  background: var(--bg-mid);
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1.5px solid var(--border);
+  font-family: var(--font-serif);
+  animation: fadeIn 0.4s ease;
+}
+
+.titlebar {
+  background: var(--bg-dark);
+  padding: 8px 12px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  cursor: default;
+}
+.titleLeft { display: flex; align-items: center; gap: 7px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; }
+.red    { background: #c0392b; }
+.yellow { background: #f39c12; }
+.green  { background: #27ae60; }
+.appTitle { color: var(--gold); font-size: 12px; font-weight: 500; letter-spacing: 0.5px; }
+.roomCode { color: var(--gold-dim); font-size: 11px; display: flex; align-items: center; gap: 4px; }
+.roomCode span { color: var(--gold); font-weight: 500; font-family: var(--font-mono); letter-spacing: 1px; }
+
+.tabBar {
+  display: flex;
+  background: var(--bg-dark);
+  border-bottom: 1px solid var(--border-dim);
+}
+.tab {
+  flex: 1; padding: 7px 4px;
+  font-size: 10px; color: var(--gold-dim); text-align: center;
+  background: none; border: none; border-bottom: 2px solid transparent;
+  transition: all 0.15s; letter-spacing: 0.3px;
+  font-family: var(--font-serif);
+}
+.tab:hover:not(.activeTab) { color: #a07840; }
+.activeTab { color: var(--gold); border-bottom-color: var(--gold); }

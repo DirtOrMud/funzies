@@ -1,0 +1,32 @@
+.bar { padding: 8px 12px; border-top: 1px solid var(--border-dim); }
+
+.row { display: flex; align-items: center; justify-content: space-between; }
+
+.chips { display: flex; gap: 5px; flex-wrap: wrap; }
+.chip {
+  background: var(--border-dim); border: 1px solid var(--border);
+  border-radius: 12px; padding: 2px 8px;
+  font-size: 10px; color: var(--gold);
+  display: flex; align-items: center; gap: 4px;
+}
+.dot { width: 5px; height: 5px; border-radius: 50%; background: var(--green); }
+
+.inviteBtn {
+  background: var(--border-dim); border: 1px solid var(--border);
+  color: var(--gold); border-radius: 6px;
+  padding: 4px 8px; font-size: 10px;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+.inviteBtn:hover { background: var(--border); }
+.primary { background: #6b4423 !important; border-color: var(--gold) !important; }
+.primary:hover { background: #8b5a2e !important; }
+
+.inviteRow { display: flex; gap: 6px; align-items: center; margin-top: 7px; }
+.codeBox {
+  flex: 1; background: var(--bg-dark);
+  border: 1px solid var(--border); border-radius: 6px;
+  padding: 4px 8px; font-size: 11px; color: var(--gold);
+  font-weight: 500; letter-spacing: 2px; text-align: center;
+  font-family: var(--font-mono);
+}

@@ -1,0 +1,72 @@
+.view { padding: 12px; animation: fadeIn 0.2s ease; }
+
+.previewRow {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px; margin-bottom: 14px;
+  background: var(--bg-dark);
+  border: 1px solid var(--border-dim);
+  border-radius: 10px;
+}
+.previewCircle {
+  width: 48px; height: 48px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  border: 2px solid rgba(255,255,255,0.15);
+}
+.previewEmoji { font-size: 24px; line-height: 1; }
+.previewName { font-size: 14px; font-weight: 500; color: var(--gold); margin-bottom: 2px; }
+.previewSub  { font-size: 10px; color: var(--gold-dim); }
+
+.section { margin-bottom: 12px; }
+.sectionTitle {
+  font-size: 10px; color: var(--gold-dim);
+  text-transform: uppercase; letter-spacing: 0.8px;
+  margin-bottom: 7px;
+}
+
+.nameInput {
+  width: 100%;
+  background: var(--bg-dark);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 13px;
+  color: var(--gold);
+  outline: none;
+  transition: border-color 0.15s;
+}
+.nameInput:focus { border-color: var(--gold); }
+.nameInput::placeholder { color: var(--gold-dark); }
+
+.emojiGrid { display: flex; flex-wrap: wrap; gap: 6px; }
+.emojiOpt {
+  width: 34px; height: 34px; border-radius: 8px;
+  background: var(--border-dim);
+  border: 1.5px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; line-height: 1;
+  transition: all 0.15s;
+}
+.emojiOpt:hover { border-color: var(--gold); }
+.emojiOpt.selected { background: #6b4423; border-color: var(--gold); }
+
+.colorGrid { display: flex; gap: 8px; flex-wrap: wrap; }
+.colorOpt {
+  width: 26px; height: 26px; border-radius: 50%;
+  border: 2px solid transparent;
+  transition: all 0.15s;
+}
+.colorOpt:hover { transform: scale(1.15); }
+.colorOpt.selected { border-color: var(--gold); transform: scale(1.1); }
+
+.saveBtn {
+  width: 100%;
+  background: #6b4423;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 13px;
+  transition: background 0.15s;
+  margin-top: 2px;
+}
+.saveBtn:hover { background: #8b5a2e; }

@@ -1,0 +1,157 @@
+.scene {
+  position: relative;
+  height: 210px;
+  background: var(--bg-deep);
+  overflow: hidden;
+}
+
+.window {
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 120px; height: 80px;
+  background: #1a2a3a;
+  border-radius: 0 0 8px 8px;
+  border: 2px solid var(--border); border-top: none;
+  overflow: hidden;
+}
+.star {
+  position: absolute;
+  background: #fff;
+  border-radius: 50%;
+}
+
+.bookshelf {
+  position: absolute; top: 18px; right: 10px;
+  display: flex; flex-direction: column; gap: 2px;
+}
+.book { width: 8px; border-radius: 2px 2px 0 0; }
+
+.lamp { position: absolute; top: 16px; left: 18px; }
+.lampHead {
+  width: 20px; height: 12px;
+  background: #8b6914;
+  border-radius: 10px 10px 0 0;
+  margin-left: -8px;
+}
+.lampPost {
+  width: 3px; height: 40px;
+  background: var(--border);
+  border-radius: 2px;
+  margin: 0 auto;
+}
+.lampGlow {
+  position: absolute; top: 28px; left: 5px;
+  width: 40px; height: 30px;
+  background: radial-gradient(ellipse, rgba(255,200,80,0.22) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.mug {
+  position: absolute; bottom: 70px; right: 30px;
+  width: 14px; height: 12px;
+  background: #7a4a2a;
+  border-radius: 2px 2px 4px 4px;
+  border: 1.5px solid #5a3020;
+}
+.mug::after {
+  content: '';
+  position: absolute; top: 2px; right: -5px;
+  width: 5px; height: 7px;
+  border: 1.5px solid #5a3020;
+  border-left: none;
+  border-radius: 0 3px 3px 0;
+}
+
+.tableSurface {
+  position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+  width: 280px; height: 70px;
+  background: var(--bg-wood);
+  border-radius: 8px;
+  border: 1.5px solid #7a5030;
+}
+
+.paper {
+  position: absolute;
+  width: 18px; height: 22px;
+  background: #f0e8d0;
+  border-radius: 2px;
+  opacity: 0.9;
+}
+
+/* seats sit above the table surface */
+.seatSlot {
+  position: absolute;
+  top: -52px;
+  display: flex; flex-direction: column; align-items: center;
+}
+
+.tableLegs {
+  position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
+  width: 240px;
+  display: flex; justify-content: space-between;
+}
+.leg {
+  width: 6px; height: 20px;
+  background: #3a2010;
+  border-radius: 0 0 3px 3px;
+}
+
+.floor {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 28px;
+  background: var(--bg-dark);
+  border-top: 1px solid var(--border-dim);
+}
+.rug {
+  position: absolute; bottom: 4px; left: 50%; transform: translateX(-50%);
+  width: 220px; height: 20px;
+  background: #3a1a1a;
+  border-radius: 4px;
+  border: 1px solid #6a2a2a;
+}
+
+/* Avatar */
+.avatarWrap {
+  display: flex; flex-direction: column; align-items: center;
+  cursor: pointer;
+}
+.avatarCircle {
+  width: 28px; height: 28px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  border: 2px solid rgba(255,255,255,0.15);
+  position: relative;
+}
+.avatarEmoji { font-size: 14px; line-height: 1; }
+.avatarLabel {
+  font-size: 9px; color: var(--gold);
+  margin-top: 2px; white-space: nowrap;
+  max-width: 40px; overflow: hidden; text-overflow: ellipsis;
+  font-family: var(--font-serif);
+}
+
+.dots {
+  position: absolute; top: -6px; right: -4px;
+  display: flex; gap: 1px;
+}
+.dots span {
+  width: 3px; height: 3px; border-radius: 50%;
+  background: var(--green);
+  animation: pulse 1.2s infinite;
+}
+.dots span:nth-child(2) { animation-delay: 0.3s; }
+.dots span:nth-child(3) { animation-delay: 0.6s; }
+
+/* Empty seat */
+.emptySeat {
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 1.5px dashed var(--border);
+  display: flex; align-items: center; justify-content: center;
+  transition: border-color 0.2s;
+}
+.avatarWrap:hover .emptySeat { border-color: var(--gold); }
+.plus { color: var(--border); font-size: 14px; transition: color 0.2s; }
+.avatarWrap:hover .plus { color: var(--gold); }
+.emptyLabel {
+  font-size: 9px; color: var(--border);
+  margin-top: 2px;
+  font-family: var(--font-serif);
+}

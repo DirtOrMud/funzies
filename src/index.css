@@ -1,0 +1,50 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg-deep:    #1a0f06;
+  --bg-dark:    #1e1309;
+  --bg-mid:     #2c1f14;
+  --bg-wood:    #4a2e14;
+  --border:     #5a3e28;
+  --border-dim: #3a2810;
+  --gold:       #d4a96a;
+  --gold-dim:   #7a6047;
+  --gold-dark:  #5a3e28;
+  --green:      #27ae60;
+  --green-light:#7de87d;
+  --green-dark: #1a4a1a;
+  --font-serif: 'Lora', Georgia, serif;
+  --font-mono:  'DM Mono', monospace;
+}
+
+html, body, #root {
+  height: 100%;
+  background: #0e0905;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-serif);
+}
+
+button { cursor: pointer; font-family: var(--font-serif); }
+input  { font-family: var(--font-serif); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg-dark); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+/* Animations */
+@keyframes pulse {
+  0%, 100% { opacity: 0.3; }
+  50%       { opacity: 1; }
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes shimmer {
+  0%   { opacity: 0.6; }
+  50%  { opacity: 1; }
+  100% { opacity: 0.6; }
+}
