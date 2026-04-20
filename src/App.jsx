@@ -6,32 +6,31 @@ import AvatarEditor from './components/AvatarEditor'
 import TimerSettings from './components/TimerSettings'
 import ParticipantsBar from './components/ParticipantsBar'
 import styles from './App.module.css'
-import { joinRoom, leaveRoom, syncRoom }  from './firebase'
 import { useRoom } from './hooks/useRoom'
-
-// Default demo users — replace with Firebase real-time data in Phase 3
-const { users, myId } = useRoom('BREW-42', myAvatar)
 
 const TABS = ['Study Room', 'My Avatar', 'Timer']
 
 export default function App() {
-  const [tab,      setTab]      = useState(0)
+  const [tab, setTab] = useState(0)
   const [focusMin, setFocusMin] = useState(25)
   const [breakMin, setBreakMin] = useState(5)
   const [sessions, setSessions] = useState(4)
   const [myAvatar, setMyAvatar] = useState({
-    id:    'me',
-    name:  'You',
+    id: 'me',
+    name: 'You',
     emoji: '🧑',
     color: '#4a2e8a',
   })
 
   const timer = useTimer(focusMin, breakMin)
+  const { users, myId } = useRoom('BREW-42', myAvatar)
 
-  const allUsers = [myAvatar, ...users]
+  const allUsers = [myAvatar, ...(users || [])]
 
   function handleApplySettings(f, b, s) {
-    setFocusMin(f); setBreakMin(b); setSessions(s)
+    setFocusMin(f)
+    setBreakMin(b)
+    setSessions(s)
     timer.applySettings(f, b)
     setTab(0)
   }
@@ -43,7 +42,6 @@ export default function App() {
 
   return (
     <div className={styles.app}>
-      {/* Title bar */}
       <div className={styles.titlebar}>
         <div className={styles.titleLeft}>
           <div className={`${styles.dot} ${styles.red}`} />
@@ -56,7 +54,6 @@ export default function App() {
         </div>
       </div>
 
-      {/* Tab bar */}
       <div className={styles.tabBar}>
         {TABS.map((t, i) => (
           <button
@@ -69,12 +66,11 @@ export default function App() {
         ))}
       </div>
 
-      {/* Views */}
       {tab === 0 && (
         <>
           <CafeScene
             users={allUsers}
-            myId="me"
+            myId={myId || 'me'}
             onInvite={() => {}}
           />
           <TimerPanel {...timer} />
