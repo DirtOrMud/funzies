@@ -19,14 +19,14 @@ import { getDatabase, ref, set, onValue, remove, onDisconnect } from 'firebase/d
 
 // TODO: replace with your config from the Firebase console
 const firebaseConfig = {
-  apiKey: "AIzaSyAGjSdOcKwboRPDqPgOvUfDjZySaE2Wb4k",
-  authDomain: "study-together-d6212.firebaseapp.com",
-  databaseURL: "https://study-together-d6212-default-rtdb.firebaseio.com",
-  projectId: "study-together-d6212",
-  storageBucket: "study-together-d6212.firebasestorage.app",
-  messagingSenderId: "661709275909",
-  appId: "1:661709275909:web:33fd4f23303a96d234ad6c",
-  measurementId: "G-0C80GCCJDV"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
 const app = initializeApp(firebaseConfig)
