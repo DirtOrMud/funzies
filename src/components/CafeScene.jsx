@@ -27,11 +27,11 @@ function Avatar({ user, isYou }) {
       {user.timer?.running && (
         <div className={styles.avatarTimer}>{icon} {timeStr}</div>
       )}
+      <div className={styles.speechBubble}>{mood}</div>
       <div className={styles.avatarCircle} style={{ background: user.color }}>
         <span className={styles.avatarEmoji}>{user.emoji}</span>
       </div>
       <div className={styles.avatarLabel}>{isYou ? 'You' : user.name}</div>
-      <div className={styles.speechBubble}>{mood}</div>
     </div>
   )
 }

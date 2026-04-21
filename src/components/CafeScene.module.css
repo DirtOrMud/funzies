@@ -2,7 +2,7 @@
   position: relative;
   height: 210px;
   background: var(--bg-deep);
-  overflow: hidden;
+  overflow: visible;  /* ← was hidden */
 }
 
 .window {
@@ -80,8 +80,10 @@
 
 .seatSlot {
   position: absolute;
-  bottom: 68px;
-  display: flex; flex-direction: column; align-items: center;
+  bottom: 95px;  /* sits above the table */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   overflow: visible;
 }
 
