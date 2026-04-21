@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect} from 'react'
 import { useTimer } from './hooks/useTimer'
 import CafeScene from './components/CafeScene'
 import TimerPanel from './components/TimerPanel'
@@ -7,6 +7,7 @@ import TimerSettings from './components/TimerSettings'
 import ParticipantsBar from './components/ParticipantsBar'
 import styles from './App.module.css'
 import { useRoom } from './hooks/useRoom'
+import { syncMyTimerToRoom } from './firebase'
 
 const TABS = ['Study Room', 'My Avatar', 'Timer']
 
@@ -24,6 +25,16 @@ export default function App() {
 
   const timer = useTimer(focusMin, breakMin)
   const { users, myId } = useRoom('BREW-42', myAvatar)
+
+  useEffect(() => {
+    if (!myId) return
+
+    syncMyTimerToRoom('BREW-42', myId, {
+      seconds: timer.seconds,
+      running: timer.running,
+      onBreak: timer.onBreak,
+    })
+  }, [myId, timer.seconds, timer.running, timer.onBreak])
 
   const allUsers = users?.length ? users : [myAvatar]
 
@@ -71,8 +82,6 @@ export default function App() {
           <CafeScene
             users={allUsers}
             myId={myId || 'me'}
-            mySeconds={timer.seconds}
-            running={timer.running}
             onInvite={() => {}}
           />
           <TimerPanel {...timer} />

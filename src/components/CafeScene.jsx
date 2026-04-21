@@ -22,9 +22,10 @@ function StudyingDots() {
   )
 }
 
-function Avatar({ user, isYou, showTimer, timerText}) {
+function Avatar({ user, isYou, showTimer, timerText }) {
   return (
     <div className={styles.avatarWrap} title={user.name}>
+      {showTimer && <div className={styles.avatarTimer}>{timerText}</div>}
       <div className={styles.avatarCircle} style={{ background: user.color }}>
         <span className={styles.avatarEmoji}>{user.emoji}</span>
         <StudyingDots />
@@ -45,10 +46,10 @@ function EmptySeat({ onInvite }) {
   )
 }
 
-export default function CafeScene({ users, myId, mySeconds, isRunning, onInvite }) {
+export default function CafeScene({ users, myId, onInvite }) {
   // users is an array of { id, name, emoji, color }
   // fill up to 4 seats
-  const seats = [...users]
+  const seats = users.slice(0, 4)
   const emptyCount = Math.max(0, 4 - seats.length)
 
   return (
@@ -92,8 +93,8 @@ export default function CafeScene({ users, myId, mySeconds, isRunning, onInvite 
             <Avatar
               user={user}
               isYou={user.id === myId}
-              showTimer={user.id === myId && isRunning}
-              timerText={formatTime(mySeconds)}
+              showTimer={user.timer?.running}
+              timerText={formatTime(user.timer?.seconds ?? 0)}
             />
           </div>
         ))}
