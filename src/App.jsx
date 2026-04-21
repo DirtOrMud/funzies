@@ -18,7 +18,7 @@ export default function App() {
   const [breakMin, setBreakMin] = useState(5)
   const [sessions, setSessions] = useState(4)
   const [myAvatar, setMyAvatar] = useState({
-    id:    'me',
+    id: 'me',
     name:  'Pret',
     emoji: '🧑',
     color: '#4a2e8a',
@@ -48,7 +48,8 @@ export default function App() {
     }
   }, [timer.sessions])
 
-  const allUsers = users?.length ? users : [myAvatar]
+  const fallbackUser = { ...myAvatar, id: myId || 'local-me' }
+  const allUsers = users?.length ? users : [fallbackUser]
 
   function handleApplySettings(f, b, s) {
     setFocusMin(f)
@@ -94,6 +95,8 @@ export default function App() {
           <CafeScene
             users={allUsers}
             myId={myId || 'me'}
+            myName={myAvatar.name}
+            roomCode="BREW-42"
             onInvite={() => {}}
           />
           <TimerPanel {...timer} lifetimeStats={stats} />

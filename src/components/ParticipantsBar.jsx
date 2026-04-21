@@ -16,8 +16,8 @@ export default function ParticipantsBar({ users, roomCode, onInvite }) {
     <div className={styles.bar}>
       <div className={styles.row}>
         <div className={styles.chips}>
-          {users.map(u => (
-            <div key={u.id} className={styles.chip}>
+          {users.map((u, i) => (
+            <div key={u.id  || `local-${i}`} className={styles.chip}>
               <div className={styles.dot} />
               {u.name}
             </div>

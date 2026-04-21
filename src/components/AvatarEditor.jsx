@@ -11,21 +11,13 @@ export default function AvatarEditor({ currentAvatar, onSave }) {
   const [name,  setName]  = useState(currentAvatar.name)
   const [emoji, setEmoji] = useState(currentAvatar.emoji)
   const [color, setColor] = useState(currentAvatar.color)
-  const [mood, setMood] = useState(currentAvatar.mood ?? 'Locking in!')
-
-  // add this section before the save button:
-
-  
-
-  
 
   function handleSave() {
-    if (name.trim()) onSave({ name: name.trim(), emoji, color, mood: mood.trim() || 'Locking in!'})
+    if (name.trim()) onSave({ name: name.trim(), emoji, color })
   }
 
   return (
     <div className={styles.view}>
-      {/* Preview */}
       <div className={styles.previewRow}>
         <div className={styles.previewCircle} style={{ background: color }}>
           <span className={styles.previewEmoji}>{emoji}</span>
@@ -36,7 +28,6 @@ export default function AvatarEditor({ currentAvatar, onSave }) {
         </div>
       </div>
 
-      {/* Name */}
       <div className={styles.section}>
         <div className={styles.sectionTitle}>Display name</div>
         <input
@@ -48,7 +39,6 @@ export default function AvatarEditor({ currentAvatar, onSave }) {
         />
       </div>
 
-      {/* Emoji */}
       <div className={styles.section}>
         <div className={styles.sectionTitle}>Choose emoji</div>
         <div className={styles.emojiGrid}>
@@ -64,7 +54,6 @@ export default function AvatarEditor({ currentAvatar, onSave }) {
         </div>
       </div>
 
-      {/* Color */}
       <div className={styles.section}>
         <div className={styles.sectionTitle}>Avatar color</div>
         <div className={styles.colorGrid}>
@@ -78,18 +67,6 @@ export default function AvatarEditor({ currentAvatar, onSave }) {
             />
           ))}
         </div>
-      </div>
-
-      {/* Mood */}
-      <div className={styles.section}>
-        <div className={styles.sectionTitle}>Speech bubble</div>
-        <input
-          className={styles.nameInput}
-          value={mood}
-          onChange={e => setMood(e.target.value)}
-          maxLength={24}
-          placeholder="Locking in!"
-        />
       </div>
 
       <button className={styles.saveBtn} onClick={handleSave}>

@@ -15,7 +15,7 @@
 // ─────────────────────────────────────────────────────────────
 
 import { initializeApp } from 'firebase/app'
-import { getDatabase, ref, set, get, onValue, remove, onDisconnect } from 'firebase/database'
+import { getDatabase, ref, set, get, push, onValue, remove, onDisconnect, query, limitToLast } from 'firebase/database'
 
 const firebaseConfig = {
   apiKey:            import.meta.env.VITE_FIREBASE_API_KEY,
@@ -72,6 +72,25 @@ export async function syncMyTimerToRoom(roomCode, userId, timerState) {
   })
 }
 
+export async function kickUser(roomCode, userId) {
+  await remove(ref(db, `rooms/${roomCode}/users/${userId}`))
+}
+
+export async function sendMessage(roomCode, name, text) {
+  if (!text.trim()) return
+  console.log('sending:', roomCode, name, text)  // ← add this
+  await push(ref(db, `rooms/${roomCode}/messages`), {
+    name, text: text.trim(), sentAt: Date.now(),
+  })
+}
+
+export function syncMessages(roomCode, onMessages) {
+  const q = query(ref(db, `rooms/${roomCode}/messages`), limitToLast(20))
+  return onValue(q, snapshot => {
+    const data = snapshot.val() || {}
+    onMessages(Object.entries(data).map(([id, val]) => ({ id, ...val })))
+  })
+}
 // ── User stats (cross-device, name-based) ─────────────────────
 
 export async function loadStats(name) {
