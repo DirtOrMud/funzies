@@ -14,7 +14,7 @@ function fmtTotal(s) {
 
 export default function TimerPanel({
   seconds, running, onBreak, sessions, totalSecs,
-  statusMsg, progress, toggle, reset, startBreak,
+  statusMsg, progress, toggle, reset, startBreak, lifetimeStats,
 }) {
   return (
     <div className={styles.panel}>
@@ -44,21 +44,22 @@ export default function TimerPanel({
             {running ? 'Pause' : 'Start'}
           </button>
           <button className={styles.btn} onClick={reset}>Reset</button>
-          <button className={styles.btn} onClick={startBreak} disabled={!running && !onBreak}> {onBreak ? 'End break' : 'Break'}</button>
+          <button className={styles.btn} onClick={startBreak} > {onBreak ? 'End break' : 'Break'}
+</button>
         </div>
       </div>
 
       <div className={styles.statsRow}>
         <div className={styles.statCard}>
-          <div className={styles.statVal}>{sessions}</div>
+          <div className={styles.statVal}>{lifetimeStats?.sessions ?? sessions}</div>
           <div className={styles.statLbl}>sessions</div>
         </div>
         <div className={styles.statCard}>
-          <div className={styles.statVal}>{fmtTotal(totalSecs)}</div>
+          <div className={styles.statVal}>{fmtTotal(lifetimeStats?.totalSecs ?? totalSecs)}</div>
           <div className={styles.statLbl}>studied</div>
         </div>
         <div className={styles.statCard}>
-          <div className={styles.statVal}>3</div>
+          <div className={styles.statVal}>{lifetimeStats?.streak ?? 0}</div>
           <div className={styles.statLbl}>day streak</div>
         </div>
       </div>
