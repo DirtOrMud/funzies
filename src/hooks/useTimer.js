@@ -74,12 +74,23 @@ export function useTimer(focusMin = 25, breakMin = 5) {
   }
 
   const startBreak = () => {
-    if (!running) return
-    clear()
-    setRunning(false)
-    setOnBreak(true)
-    setBreakSecs(totalBreak.current)
-    setStatusMsg('on break')
+    if (onBreak) {
+      clear()
+      setOnBreak(false)
+      setIsLongBreak(false)
+      setBreakSecs(totalBreak.current)
+      setFocusSecs(savedFocusSecs.current)
+      setStatusMsg('resuming session...')
+      setTimeout(() => setStatusMsg('focus session'), 2500)
+      setRunning(true)  // ← this was missing
+    } else {
+      savedFocusSecs.current = focusSecs
+      clear()
+      setRunning(false)
+      setOnBreak(true)
+      setBreakSecs(totalBreak.current)
+      setStatusMsg('on break')
+    }
   }
 
   const applySettings = (newFocus, newBreak) => {

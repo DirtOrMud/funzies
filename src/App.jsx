@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useTimer } from './hooks/useTimer'
+import { useUserStats } from './hooks/useUserStats'
 import CafeScene from './components/CafeScene'
 import TimerPanel from './components/TimerPanel'
 import AvatarEditor from './components/AvatarEditor'
@@ -12,7 +13,7 @@ import { syncMyTimerToRoom } from './firebase'
 const TABS = ['Study Room', 'My Avatar', 'Timer']
 
 export default function App() {
-  const [tab, setTab]         = useState(0)
+  const [tab, setTab]           = useState(0)
   const [focusMin, setFocusMin] = useState(25)
   const [breakMin, setBreakMin] = useState(5)
   const [sessions, setSessions] = useState(4)
@@ -23,9 +24,12 @@ export default function App() {
     color: '#4a2e8a',
   })
 
-  const timer = useTimer(focusMin, breakMin, sessions)
-  const { users, myId } = useRoom('BREW-42', myAvatar)
+  const timer                    = useTimer(focusMin, breakMin, sessions)
+  const { users, myId }          = useRoom('BREW-42', myAvatar)
+  const { stats, addSession }    = useUserStats(myAvatar.name)
+  const prevSessionsRef          = useRef(0)
 
+  // Sync timer state to room
   useEffect(() => {
     if (!myId) return
     syncMyTimerToRoom('BREW-42', myId, {
@@ -34,6 +38,14 @@ export default function App() {
       onBreak: timer.onBreak,
     })
   }, [myId, timer.seconds, timer.running, timer.onBreak])
+
+  // Record a session to Firebase stats whenever a session completes
+  useEffect(() => {
+    if (timer.sessions > prevSessionsRef.current) {
+      prevSessionsRef.current = timer.sessions
+      addSession(focusMin * 60)
+    }
+  }, [timer.sessions])
 
   const allUsers = users?.length ? users : [myAvatar]
 
@@ -83,7 +95,7 @@ export default function App() {
             myId={myId || 'me'}
             onInvite={() => {}}
           />
-          <TimerPanel {...timer} />
+          <TimerPanel {...timer} lifetimeStats={stats} />
           <ParticipantsBar
             users={allUsers}
             roomCode="BREW-42"
