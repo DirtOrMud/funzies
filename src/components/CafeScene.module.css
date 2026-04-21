@@ -1,8 +1,8 @@
 .scene {
   position: relative;
-  height: 210px;
+  height: 240px;
   background: var(--bg-deep);
-  overflow: visible;  /* ← was hidden */
+  overflow: visible;
 }
 
 .window {
@@ -62,8 +62,12 @@
 }
 
 .tableSurface {
-  position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
-  width: 280px; height: 70px;
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 280px;
+  height: 70px;
   background: var(--bg-wood);
   border-radius: 8px;
   border: 1.5px solid #7a5030;
@@ -80,7 +84,7 @@
 
 .seatSlot {
   position: absolute;
-  bottom: 95px;  /* sits above the table */
+  bottom: 130px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -173,10 +177,6 @@
 }
 
 .speechBubble {
-  position: absolute;
-  top: 44px;
-  left: 50%;
-  transform: translateX(-50%);
   background: #f0e8d0;
   color: #3a2010;
   font-size: 8px;
@@ -186,27 +186,28 @@
   border-radius: 6px;
   border: 1px solid #c8b89a;
   pointer-events: none;
-  z-index: 10;
+  margin-bottom: 4px;
+  position: relative;
 }
 
 .speechBubble::before {
   content: '';
   position: absolute;
-  top: -5px;
+  bottom: -6px;
   left: 50%;
   transform: translateX(-50%);
-  border-width: 0 4px 5px 4px;
+  border-width: 6px 4px 0 4px;
   border-style: solid;
-  border-color: transparent transparent #c8b89a transparent;
+  border-color: #c8b89a transparent transparent transparent;
 }
 
 .speechBubble::after {
   content: '';
   position: absolute;
-  top: -4px;
+  bottom: -5px;
   left: 50%;
   transform: translateX(-50%);
-  border-width: 0 4px 5px 4px;
+  border-width: 6px 4px 0 4px;
   border-style: solid;
-  border-color: transparent transparent #f0e8d0 transparent;
+  border-color: #f0e8d0 transparent transparent transparent;
 }
