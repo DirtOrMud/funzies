@@ -1,34 +1,70 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 
-export function useTimer(focusMin = 25, breakMin = 5) {
+export function useTimer(focusMin = 25, breakMin = 5, sessionsBeforeLong = 4) {
   const [focusSecs, setFocusSecs]     = useState(focusMin * 60)
   const [breakSecs, setBreakSecs]     = useState(breakMin * 60)
   const [running, setRunning]         = useState(false)
   const [onBreak, setOnBreak]         = useState(false)
+  const [isLongBreak, setIsLongBreak] = useState(false)
   const [sessions, setSessions]       = useState(0)
   const [totalSecs, setTotalSecs]     = useState(0)
   const [statusMsg, setStatusMsg]     = useState('focus session')
-  const intervalRef = useRef(null)
-  const totalFocus  = useRef(focusMin * 60)
-  const totalBreak  = useRef(breakMin * 60)
 
-  // Keep totals in sync when settings change
+  const intervalRef       = useRef(null)
+  const totalFocus        = useRef(focusMin * 60)
+  const totalBreak        = useRef(breakMin * 60)
+  const savedFocusSecs    = useRef(focusMin * 60)
+  const sessionsRef       = useRef(0)
+  const sessionsBeforeRef = useRef(sessionsBeforeLong)
+
   useEffect(() => {
-    totalFocus.current = focusMin * 60
-    totalBreak.current = breakMin * 60
-  }, [focusMin, breakMin])
+    totalFocus.current        = focusMin * 60
+    totalBreak.current        = breakMin * 60
+    sessionsBeforeRef.current = sessionsBeforeLong
+  }, [focusMin, breakMin, sessionsBeforeLong])
 
   const clear = () => clearInterval(intervalRef.current)
+
+  function completeSession() {
+    clear()
+    setRunning(false)
+    const newCount = sessionsRef.current + 1
+    sessionsRef.current = newCount
+    setSessions(newCount)
+    savedFocusSecs.current = totalFocus.current
+
+    const isLong = newCount % sessionsBeforeRef.current === 0
+    const longBreakSecs = totalBreak.current * 3
+    setIsLongBreak(isLong)
+    setOnBreak(true)
+    setFocusSecs(totalFocus.current)
+    setBreakSecs(isLong ? longBreakSecs : totalBreak.current)
+    setStatusMsg(isLong ? `long break — ${newCount} sessions done!` : 'session complete!')
+    setRunning(true)
+  }
+
+  function completeBreak() {
+    clear()
+    setRunning(false)
+    setOnBreak(false)
+    setIsLongBreak(false)
+    setBreakSecs(totalBreak.current)
+    setFocusSecs(totalFocus.current)
+    savedFocusSecs.current = totalFocus.current
+    setStatusMsg('break over — start!')
+    setTimeout(() => setStatusMsg('focus session'), 3000)
+  }
 
   const tick = useCallback(() => {
     if (onBreak) {
       setBreakSecs(s => {
-        if (s <= 1) { endBreakInternal(); return 0 }
+        if (s <= 1) { completeBreak(); return 0 }
         return s - 1
       })
     } else {
       setFocusSecs(s => {
-        if (s <= 1) { completeSessionInternal(); return 0 }
+        savedFocusSecs.current = s - 1
+        if (s <= 1) { completeSession(); return 0 }
         return s - 1
       })
       setTotalSecs(t => t + 1)
@@ -44,32 +80,16 @@ export function useTimer(focusMin = 25, breakMin = 5) {
     return clear
   }, [running, tick])
 
-  function completeSessionInternal() {
-    clear()
-    setRunning(false)
-    setSessions(s => s + 1)
-    setFocusSecs(totalFocus.current)
-    setStatusMsg('session complete!')
-    setTimeout(() => setStatusMsg('focus session'), 3000)
-  }
-
-  function endBreakInternal() {
-    clear()
-    setRunning(false)
-    setOnBreak(false)
-    setBreakSecs(totalBreak.current)
-    setStatusMsg('break over — start!')
-    setTimeout(() => setStatusMsg('focus session'), 3000)
-  }
-
   const toggle = () => setRunning(r => !r)
 
   const reset = () => {
     clear()
     setRunning(false)
     setOnBreak(false)
+    setIsLongBreak(false)
     setFocusSecs(totalFocus.current)
     setBreakSecs(totalBreak.current)
+    savedFocusSecs.current = totalFocus.current
     setStatusMsg('focus session')
   }
 
@@ -82,7 +102,7 @@ export function useTimer(focusMin = 25, breakMin = 5) {
       setFocusSecs(savedFocusSecs.current)
       setStatusMsg('resuming session...')
       setTimeout(() => setStatusMsg('focus session'), 2500)
-      setRunning(true)  // ← this was missing
+      setRunning(true)
     } else {
       savedFocusSecs.current = focusSecs
       clear()
@@ -97,20 +117,22 @@ export function useTimer(focusMin = 25, breakMin = 5) {
     clear()
     setRunning(false)
     setOnBreak(false)
+    setIsLongBreak(false)
     totalFocus.current = newFocus * 60
     totalBreak.current = newBreak * 60
+    savedFocusSecs.current = newFocus * 60
     setFocusSecs(newFocus * 60)
     setBreakSecs(newBreak * 60)
     setStatusMsg('focus session')
   }
 
   const progress = onBreak
-    ? (breakSecs / totalBreak.current)
+    ? (breakSecs / (isLongBreak ? totalBreak.current * 3 : totalBreak.current))
     : (focusSecs / totalFocus.current)
 
   return {
     seconds: onBreak ? breakSecs : focusSecs,
-    running, onBreak, sessions, totalSecs,
+    running, onBreak, isLongBreak, sessions, totalSecs,
     statusMsg, progress,
     toggle, reset, startBreak, applySettings,
   }
