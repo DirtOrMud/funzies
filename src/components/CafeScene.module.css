@@ -80,7 +80,7 @@
 
 .seatSlot {
   position: absolute;
-  top: -52px;
+  bottom: 68px;
   display: flex; flex-direction: column; align-items: center;
   overflow: visible;
 }

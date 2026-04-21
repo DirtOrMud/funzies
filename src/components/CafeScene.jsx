@@ -2,10 +2,10 @@ import React from 'react'
 import styles from './CafeScene.module.css'
 
 const SEAT_POSITIONS = [
-  { left: 38 },
-  { left: 98 },
-  { left: 158 },
-  { left: 218 },
+  { left: 68 },
+  { left: 128 },
+  { left: 188 },
+  { left: 248 },
 ]
 
 function formatTime(totalSeconds) {
@@ -19,7 +19,8 @@ function Avatar({ user, isYou }) {
   const mins = Math.floor(secs / 60)
   const s = secs % 60
   const timeStr = `${String(mins).padStart(2,'0')}:${String(s).padStart(2,'0')}`
-  const icon = user.timer?.onBreak ? '☕' : '📖'
+  const icon = user.timer?.onBreak ? '🎮' : '📖'
+  const mood = user.mood ?? 'Locking in!'
 
   return (
     <div className={styles.avatarWrap} title={user.name}>
@@ -30,6 +31,7 @@ function Avatar({ user, isYou }) {
         <span className={styles.avatarEmoji}>{user.emoji}</span>
       </div>
       <div className={styles.avatarLabel}>{isYou ? 'You' : user.name}</div>
+      <div className={styles.speechBubble}>{mood}</div>
     </div>
   )
 }
@@ -46,8 +48,6 @@ function EmptySeat({ onInvite }) {
 }
 
 export default function CafeScene({ users, myId, onInvite }) {
-  // users is an array of { id, name, emoji, color }
-  // fill up to 4 seats
   const seats = users.slice(0, 4)
   const emptyCount = Math.max(0, 4 - seats.length)
 
@@ -79,28 +79,25 @@ export default function CafeScene({ users, myId, onInvite }) {
       {/* Coffee mug */}
       <div className={styles.mug} />
 
-      {/* Table */}
+      {/* Table — papers only, no avatars */}
       <div className={styles.tableSurface}>
         <div className={styles.paper} style={{ top: 10, left: 30, transform: 'rotate(-3deg)' }} />
         <div className={styles.paper} style={{ top: 8, left: 50, transform: 'rotate(2deg)' }} />
         <div className={styles.paper} style={{ top: 12, right: 40, transform: 'rotate(-1deg)' }} />
         <div className={styles.paper} style={{ top: 9, right: 60, transform: 'rotate(4deg)' }} />
-
-        {/* Avatars sit above the table */}
-        {seats.map((user, i) => (
-          <div key={user.id} className={styles.seatSlot} style={{ left: SEAT_POSITIONS[i].left }}>
-            <Avatar
-              user={user}
-              isYou={user.id === myId}
-            />
-          </div>
-        ))}
-        {Array.from({ length: emptyCount }).map((_, i) => (
-          <div key={`empty-${i}`} className={styles.seatSlot} style={{ left: SEAT_POSITIONS[seats.length + i].left }}>
-            <EmptySeat onInvite={onInvite} />
-          </div>
-        ))}
       </div>
+
+      {/* Avatars — direct children of scene so speech bubble isn't clipped */}
+      {seats.map((user, i) => (
+        <div key={user.id} className={styles.seatSlot} style={{ left: SEAT_POSITIONS[i].left }}>
+          <Avatar user={user} isYou={user.id === myId} />
+        </div>
+      ))}
+      {Array.from({ length: emptyCount }).map((_, i) => (
+        <div key={`empty-${i}`} className={styles.seatSlot} style={{ left: SEAT_POSITIONS[seats.length + i].left }}>
+          <EmptySeat onInvite={onInvite} />
+        </div>
+      ))}
 
       <div className={styles.tableLegs}>
         <div className={styles.leg} /><div className={styles.leg} />
