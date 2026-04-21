@@ -25,7 +25,7 @@ export default function App() {
   const timer = useTimer(focusMin, breakMin)
   const { users, myId } = useRoom('BREW-42', myAvatar)
 
-  const allUsers = [myAvatar, ...(users || [])]
+  const allUsers = users?.length ? users : [myAvatar]
 
   function handleApplySettings(f, b, s) {
     setFocusMin(f)
@@ -71,6 +71,8 @@ export default function App() {
           <CafeScene
             users={allUsers}
             myId={myId || 'me'}
+            mySeconds={timer.seconds}
+            running={timer.running}
             onInvite={() => {}}
           />
           <TimerPanel {...timer} />

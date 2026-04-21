@@ -8,6 +8,12 @@ const SEAT_POSITIONS = [
   { left: 218 },
 ]
 
+function formatTime(totalSeconds) {
+  const mins = Math.floor(totalSeconds / 60)
+  const secs = totalSeconds % 60
+  return `${mins}:${secs.toString().padStart(2, '0')}`
+}
+
 function StudyingDots() {
   return (
     <div className={styles.dots}>
@@ -16,7 +22,7 @@ function StudyingDots() {
   )
 }
 
-function Avatar({ user, isYou }) {
+function Avatar({ user, isYou, showTimer, timerText}) {
   return (
     <div className={styles.avatarWrap} title={user.name}>
       <div className={styles.avatarCircle} style={{ background: user.color }}>
@@ -39,7 +45,7 @@ function EmptySeat({ onInvite }) {
   )
 }
 
-export default function CafeScene({ users, myId, onInvite }) {
+export default function CafeScene({ users, myId, mySeconds, isRunning, onInvite }) {
   // users is an array of { id, name, emoji, color }
   // fill up to 4 seats
   const seats = [...users]
@@ -83,7 +89,12 @@ export default function CafeScene({ users, myId, onInvite }) {
         {/* Avatars sit above the table */}
         {seats.map((user, i) => (
           <div key={user.id} className={styles.seatSlot} style={{ left: SEAT_POSITIONS[i].left }}>
-            <Avatar user={user} isYou={user.id === myId} />
+            <Avatar
+              user={user}
+              isYou={user.id === myId}
+              showTimer={user.id === myId && isRunning}
+              timerText={formatTime(mySeconds)}
+            />
           </div>
         ))}
         {Array.from({ length: emptyCount }).map((_, i) => (

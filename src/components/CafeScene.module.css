@@ -155,3 +155,11 @@
   margin-top: 2px;
   font-family: var(--font-serif);
 }
+
+.avatarTimer {
+  margin-bottom: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff3d6;
+  text-align: center;
+}
