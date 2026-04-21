@@ -84,7 +84,7 @@
 
 .seatSlot {
   position: absolute;
-  bottom: 130px;
+  bottom: 110px;
   display: flex;
   flex-direction: column;
   align-items: center;
