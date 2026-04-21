@@ -33,7 +33,7 @@ export default function TimerPanel({
 
       <div className={styles.timerRow}>
         <div>
-          <div className={styles.timerDisplay}>{fmt(seconds)}</div>
+          <div className={styles.timerDisplay}>{onBreak ? '🎮' : '📖'} {fmt(seconds)}</div>
           <div className={styles.timerSub}>{statusMsg}</div>
         </div>
         <div className={styles.btnGroup}>
@@ -55,7 +55,7 @@ export default function TimerPanel({
           <div className={styles.statLbl}>sessions</div>
         </div>
         <div className={styles.statCard}>
-          <div className={styles.statVal}>{fmtTotal(lifetimeStats?.totalSecs ?? totalSecs)}</div>
+          <div className={styles.statVal}>{fmtTotal((lifetimeStats?.totalSecs ?? 0) + totalSecs)}</div>
           <div className={styles.statLbl}>studied</div>
         </div>
         <div className={styles.statCard}>

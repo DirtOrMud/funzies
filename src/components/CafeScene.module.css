@@ -168,3 +168,40 @@
   color: #fff3d6;
   white-space: nowrap;
 }
+.speechBubble {
+  position: absolute;
+  bottom: -28px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #f0e8d0;
+  color: #3a2010;
+  font-size: 8px;
+  font-family: var(--font-serif);
+  white-space: nowrap;
+  padding: 2px 6px;
+  border-radius: 6px;
+  border: 1px solid #c8b89a;
+  pointer-events: none;
+}
+
+.speechBubble::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 0 4px 5px 4px;
+  border-style: solid;
+  border-color: transparent transparent #c8b89a transparent;
+}
+
+.speechBubble::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 0 4px 5px 4px;
+  border-style: solid;
+  border-color: transparent transparent #f0e8d0 transparent;
+}

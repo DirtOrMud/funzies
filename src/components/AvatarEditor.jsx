@@ -11,9 +11,16 @@ export default function AvatarEditor({ currentAvatar, onSave }) {
   const [name,  setName]  = useState(currentAvatar.name)
   const [emoji, setEmoji] = useState(currentAvatar.emoji)
   const [color, setColor] = useState(currentAvatar.color)
+  const [mood, setMood] = useState(currentAvatar.mood ?? 'Locking in!')
+
+  // add this section before the save button:
+
+  
+
+  
 
   function handleSave() {
-    if (name.trim()) onSave({ name: name.trim(), emoji, color })
+    if (name.trim()) onSave({ name: name.trim(), emoji, color, mood: mood.trim() || 'Locking in!'})
   }
 
   return (
@@ -71,6 +78,18 @@ export default function AvatarEditor({ currentAvatar, onSave }) {
             />
           ))}
         </div>
+      </div>
+
+      {/* Mood */}
+      <div className={styles.section}>
+        <div className={styles.sectionTitle}>Speech bubble</div>
+        <input
+          className={styles.nameInput}
+          value={mood}
+          onChange={e => setMood(e.target.value)}
+          maxLength={24}
+          placeholder="Locking in!"
+        />
       </div>
 
       <button className={styles.saveBtn} onClick={handleSave}>

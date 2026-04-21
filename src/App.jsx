@@ -19,9 +19,10 @@ export default function App() {
   const [sessions, setSessions] = useState(4)
   const [myAvatar, setMyAvatar] = useState({
     id:    'me',
-    name:  'You',
+    name:  'Pret',
     emoji: '🧑',
     color: '#4a2e8a',
+    mood: 'Locking in!',
   })
 
   const timer                    = useTimer(focusMin, breakMin, sessions)

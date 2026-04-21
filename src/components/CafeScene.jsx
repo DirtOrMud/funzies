@@ -14,21 +14,20 @@ function formatTime(totalSeconds) {
   return `${mins}:${secs.toString().padStart(2, '0')}`
 }
 
-function StudyingDots() {
-  return (
-    <div className={styles.dots}>
-      <span /><span /><span />
-    </div>
-  )
-}
+function Avatar({ user, isYou }) {
+  const secs = user.timer?.seconds ?? 0
+  const mins = Math.floor(secs / 60)
+  const s = secs % 60
+  const timeStr = `${String(mins).padStart(2,'0')}:${String(s).padStart(2,'0')}`
+  const icon = user.timer?.onBreak ? '☕' : '📖'
 
-function Avatar({ user, isYou, showTimer, timerText }) {
   return (
     <div className={styles.avatarWrap} title={user.name}>
-      {showTimer && <div className={styles.avatarTimer}>{timerText}</div>}
+      {user.timer?.running && (
+        <div className={styles.avatarTimer}>{icon} {timeStr}</div>
+      )}
       <div className={styles.avatarCircle} style={{ background: user.color }}>
         <span className={styles.avatarEmoji}>{user.emoji}</span>
-        <StudyingDots />
       </div>
       <div className={styles.avatarLabel}>{isYou ? 'You' : user.name}</div>
     </div>
@@ -93,8 +92,6 @@ export default function CafeScene({ users, myId, onInvite }) {
             <Avatar
               user={user}
               isYou={user.id === myId}
-              showTimer={user.timer?.running}
-              timerText={formatTime(user.timer?.seconds ?? 0)}
             />
           </div>
         ))}
