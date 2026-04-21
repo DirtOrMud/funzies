@@ -44,7 +44,7 @@ export default function TimerPanel({
             {running ? 'Pause' : 'Start'}
           </button>
           <button className={styles.btn} onClick={reset}>Reset</button>
-          <button className={styles.btn} onClick={startBreak} disabled={!running}>Break</button>
+          <button className={styles.btn} onClick={startBreak} disabled={!running && !onBreak}> {onBreak ? 'End break' : 'Break'}</button>
         </div>
       </div>
 
